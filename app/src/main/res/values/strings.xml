@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">AirRemoteController</string>
+    <string name="send_cmd">SEND</string>
+    <string name="shut_down">ShutDown</string>
+    <string name="degree_down">-</string>
+    <string name="degree_up">+</string>
+    <string name="hint_degree">25</string>
+
+    <string name="work_mode">工作模式</string>
+    <string name="wind_speed">风速</string>
+
+    <string name="hint_cmd_history">此处打印历史命令...</string>
+
+    <string name="work_mode_hot">取暖</string>
+    <string name="work_mode_cool">制冷</string>
+    <string name="work_mode_auto">自动</string>
+
+    <string name="wind_speed_0">自动</string>
+    <string name="wind_speed_1">低</string>
+    <string name="wind_speed_2">中</string>
+    <string name="wind_speed_3">高</string>
+
+</resources>

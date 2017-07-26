@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.smarthome.benz.airremotecontroller.MainActivity">
+
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SmartH AirCrl Demo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_work_mode"
+        android:text="@string/work_mode_auto"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/btn_work_mode"
+        app:layout_constraintRight_toLeftOf="@+id/tv_wind_speed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_weight="1"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_wind_speed"
+        android:text="@string/wind_speed_0"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/btn_wind_speed"
+        app:layout_constraintLeft_toRightOf="@+id/btn_work_mode"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_weight="1"/>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_work_mode"
+        android:text="@string/work_mode"
+        app:layout_constraintBottom_toTopOf="@+id/btn_degree_down"
+        app:layout_constraintRight_toLeftOf="@+id/btn_wind_speed"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_wind_speed"
+        android:text="@string/wind_speed"
+        app:layout_constraintLeft_toRightOf="@+id/btn_work_mode"
+        app:layout_constraintBottom_toTopOf="@+id/btn_degree_up"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_degree_down"
+        android:text="@string/degree_down"
+        android:textSize="60px"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/tv_degree"
+        app:layout_constraintBottom_toTopOf="@+id/btn_send_cmd"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_degree"
+        app:layout_constraintLeft_toRightOf="@+id/btn_degree_down"
+        app:layout_constraintRight_toLeftOf="@+id/btn_degree_up"
+        android:text="@string/hint_degree"
+        android:textAlignment="center"
+        android:textSize="60px"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btn_degree_down"
+        />
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_degree_up"
+        android:text="@string/degree_up"
+        android:textSize="60px"
+        app:layout_constraintLeft_toRightOf="@+id/tv_degree"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_shut_down"
+        />
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/send_cmd"
+        android:id="@+id/btn_send_cmd"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btn_shut_down"
+        app:layout_constraintHorizontal_weight="1"/>
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/shut_down"
+        android:id="@+id/btn_shut_down"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/btn_send_cmd"
+        app:layout_constraintHorizontal_weight="1"/>
+
+    <TextView
+        android:id="@+id/tv_cmd_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:fadeScrollbars="false"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

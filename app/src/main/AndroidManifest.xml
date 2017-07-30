@@ -9,7 +9,9 @@
         android:supportsRtl="true" android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait">
+            android:label="SmartHome空调遥控"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,6 +19,17 @@
             </intent-filter>
 
         </activity>
+
+        <activity
+            android:name=".SchedulerActivity"
+            android:label="定时任务"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+
+        </activity>
+
+
     </application>
 
 </manifest>

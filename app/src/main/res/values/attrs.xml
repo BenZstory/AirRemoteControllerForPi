@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<attr name="cmd_param_group" format="integer" />-->
+    <declare-styleable name="benz_attrs">
+        <attr name="cmd_param_group" format="integer" />
+    </declare-styleable>
+</resources>

@@ -1,10 +1,14 @@
 package com.smarthome.benz.airremotecontroller
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import kotlinx.android.synthetic.main.activity_main.*
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -15,21 +19,49 @@ import org.jetbrains.anko.toast
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
+    val TAG = "mainAty"
     val url = "http://www.benzweb.tech:28234"
     val url_shut_down = url + "/air_ctl_close"
     val url_ircmd = url + "/ircmd"
 
+    var mSp: SharedPreferences? = null
     var mQueue: RequestQueue? = null
     var mWorkMode = 0
     var mWindSpeed = 0
     var mDegree = 26
-    var mLastCmd: AirCmd = AirCmd(0, 0, 0, 26)
+    var mLastCmd: AirCmd = AirCmd(0, true, 0, 0, 26)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(main_toolbar)
 
         init()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_actions, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        Log.i(TAG, item.toString())
+        when (item!!.itemId) {
+            R.id.action_item_scheduler -> {
+                val intent = Intent(this, SchedulerActivity::class.java)
+                startActivity(intent)
+            }
+
+            R.id.action_item_settings -> {
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i(TAG, "onResume")
+        refreshViewParams(7)
     }
 
     override fun onClick(v: View?) {
@@ -84,20 +116,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btn_degree_down.setOnClickListener(this)
 
         // fetch history params from shared preferences.
-        var sp = getSharedPreferences("AirCmd", Context.MODE_PRIVATE)
-        mWorkMode = sp.getInt("workMode", 0)
-        mWindSpeed = sp.getInt("windSpeed", 0)
-        mDegree = sp.getInt("degree", 26)
-        var id = sp.getInt("id", -1)
-        mLastCmd = AirCmd(id, mWorkMode, mWindSpeed, mDegree)
-
-        refreshViewParams(7)
+        mSp = getSharedPreferences("AirCmd", Context.MODE_PRIVATE)
+        mWorkMode = mSp!!.getInt("workMode", 0)
+        mWindSpeed = mSp!!.getInt("windSpeed", 0)
+        mDegree = mSp!!.getInt("degree", 26)
+        var id = mSp!!.getInt("id", -1)
+        val toggle = mSp!!.getBoolean("toggle", true)
+        mLastCmd = AirCmd(id, toggle, mWorkMode, mWindSpeed, mDegree)
+        Log.i(TAG, "init lastCmd: " + mLastCmd.cmdStr)
 
         mQueue = Volley.newRequestQueue(this)
     }
 
+    fun doSaveCmd() {
+        mSp!!.edit()
+                .putInt("id", mLastCmd.id)
+                .putBoolean("toggle", mLastCmd.toggle)
+                .putInt("workMode", mWorkMode)
+                .putInt("windSpeed", mWindSpeed)
+                .putInt("degree", mDegree)
+                .apply()
+        Log.i(TAG, "cmd saved: " + mLastCmd.cmdStr)
+    }
+
     fun doSendCmd() {
-        var cmd = AirCmd(mLastCmd.id + 1, mWorkMode, mWindSpeed, mDegree)
+        val cmd = AirCmd(mLastCmd.id + 1, true, mWorkMode, mWindSpeed, mDegree)
         toast("btn_send_cmd clicked!   Cmd: ${cmd.cmdStr}")
         cmd.status = "Sending"
         val request = JsonObjectRequest(Request.Method.POST, url_ircmd, cmd.buildCmdJson(),
@@ -113,9 +156,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     cmd.result = err.message.toString()
                 })
         mQueue!!.add(request)
-        mQueue!!.start()
 
         mLastCmd = cmd
+        doSaveCmd()
 
         var history = tv_cmd_history.text.toString() + mLastCmd.cmdStr + "\n"
         tv_cmd_history.text = history
@@ -128,18 +171,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //        }
     }
 
-    override fun onStop() {
-        var sp = getSharedPreferences("AirCmd", Context.MODE_PRIVATE)
-        sp.edit()
-                .putInt("id", mLastCmd.id)
-                .putInt("workMode", mWorkMode)
-                .putInt("windSpeed", mWindSpeed)
-                .putInt("degree", mDegree)
-                .commit();
-        super.onStop()
-    }
-
     fun doShutDown() {
+        val cmd = AirCmd(mLastCmd.id + 1, false, mWorkMode, mWindSpeed, mDegree)
         toast("btn_shut_down clicked!")
         val request = JsonObjectRequest(Request.Method.GET, url_shut_down, null,
                 Response.Listener<JSONObject> { response ->
@@ -149,35 +182,36 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     toast("request not working...")
                 })
         mQueue!!.add(request)
-        mQueue!!.start()
+        doSaveCmd()
     }
 
     // use bit to indicate whom to refresh, 1 workMode, 2 degree, 4 windSpeed
     fun refreshViewParams(toRefresh: Int) {
-        when {
-            (toRefresh.and(1) != 0) -> {
-                when (mWorkMode) {
-                    0 -> tv_work_mode.setText(R.string.work_mode_cool)
-                    1 -> tv_work_mode.setText(R.string.work_mode_hot)
-                }
-            }
+        Log.i(TAG, "refreshViewParams, int: " + toRefresh)
 
-            (toRefresh.and(2) != 0) -> {
-                tv_degree.text = mDegree.toString()
+        if (toRefresh.and(1) != 0) {
+            when (mWorkMode) {
+                0 -> tv_work_mode.setText(R.string.work_mode_cool)
+                1 -> tv_work_mode.setText(R.string.work_mode_hot)
             }
+        }
 
-            (toRefresh.and(4) != 0) -> {
-                when (mWindSpeed) {
-                    0 -> tv_wind_speed.setText(R.string.wind_speed_0)
-                    1 -> tv_wind_speed.setText(R.string.wind_speed_1)
-                    2 -> tv_wind_speed.setText(R.string.wind_speed_2)
-                    3 -> tv_wind_speed.setText(R.string.wind_speed_3)
-                }
-            }
+        if (toRefresh.and(2) != 0) {
+            Log.i(TAG, "setting degreeText : " + mDegree.toString())
+            tv_degree.text = mDegree.toString()
+        }
 
-            toRefresh == -1 -> {
-                // this means the air controller is shut down.
+        if (toRefresh.and(4) != 0) {
+            when (mWindSpeed) {
+                0 -> tv_wind_speed.setText(R.string.wind_speed_0)
+                1 -> tv_wind_speed.setText(R.string.wind_speed_1)
+                2 -> tv_wind_speed.setText(R.string.wind_speed_2)
+                3 -> tv_wind_speed.setText(R.string.wind_speed_3)
             }
+        }
+
+        if (toRefresh == -1) {
+            Log.i(TAG, "shutting down...")
         }
     }
 

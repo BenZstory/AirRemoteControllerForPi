@@ -3,4 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="CadetBlue1">#98F5FF</color>
+    <color name="BlanchedAlmond">#FFEBCD</color>
+    <color name="WhiteSmoke">#F5F5F5</color>
+    <color name="LawnGreen">#7CFC00</color>
+    <color name="DarkSlateBlue">#483D8B</color>
+    <color name="Gold3">#CDAD00</color>
+    <color name="SkyBlue">	#87CEEB</color>
+    <color name="lavender">#E6E6FA</color>
 </resources>

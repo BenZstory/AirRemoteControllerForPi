@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/cron_editor_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_scrollFlags="scroll|enterAlways|snap"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+    <!--</android.support.v7.widget.RecyclerView>-->
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="center|top"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_work_mode"
+            android:text="@string/work_mode_auto"
+            android:textAlignment="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btn_work_mode"
+            app:layout_constraintRight_toRightOf="@id/btn_work_mode"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintHorizontal_weight="1"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_wind_speed"
+            android:text="@string/wind_speed_0"
+            android:textAlignment="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btn_wind_speed"
+            app:layout_constraintLeft_toLeftOf="@id/btn_wind_speed"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_weight="1"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_work_mode"
+            android:text="@string/work_mode"
+            app:layout_constraintTop_toBottomOf="@+id/tv_work_mode"
+            app:layout_constraintBottom_toTopOf="@+id/btn_degree_down"
+            app:layout_constraintRight_toLeftOf="@+id/btn_toggle"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_toggle"
+            android:text="开关"
+            app:layout_constraintBaseline_toBaselineOf="@id/btn_work_mode"
+            app:layout_constraintTop_toBottomOf="@+id/tv_work_mode"
+            app:layout_constraintBottom_toTopOf="@+id/btn_degree_down"
+            app:layout_constraintRight_toLeftOf="@+id/btn_wind_speed"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@+id/btn_work_mode"
+            />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_wind_speed"
+            android:text="@string/wind_speed"
+            app:layout_constraintTop_toBottomOf="@+id/tv_work_mode"
+            app:layout_constraintLeft_toRightOf="@+id/btn_toggle"
+            app:layout_constraintBottom_toTopOf="@+id/btn_degree_up"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+
+        <View
+            android:layout_height="3dp"
+            android:layout_width="match_parent"
+            android:background="@color/colorPrimary"
+            app:layout_constraintTop_toBottomOf="@id/btn_toggle">
+        </View>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_degree_down"
+            android:text="@string/degree_down"
+            android:textSize="60px"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintTop_toBottomOf="@id/btn_toggle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tv_degree"
+            app:layout_constraintBottom_toTopOf="@+id/btn_send_cmd"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_degree"
+            app:layout_constraintLeft_toRightOf="@+id/btn_degree_down"
+            app:layout_constraintRight_toLeftOf="@+id/btn_degree_up"
+            app:layout_constraintTop_toBottomOf="@id/btn_toggle"
+            android:text="@string/hint_degree"
+            android:textAlignment="center"
+            android:textSize="60px"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintBaseline_toBaselineOf="@+id/btn_degree_down"
+            />
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_degree_up"
+            android:text="@string/degree_up"
+            android:textSize="60px"
+            app:layout_constraintTop_toBottomOf="@id/btn_toggle"
+            app:layout_constraintLeft_toRightOf="@+id/tv_degree"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btn_shut_down"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/days_group"
+            android:orientation="horizontal"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@id/pickers_group">
+
+            <TextView
+                android:id="@+id/day_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/lavender"
+                android:textAlignment="gravity"
+                android:gravity="center"
+                android:layout_margin="1dp"
+                android:text="Mon" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/day_2"
+                android:background="@color/lavender"
+                android:text="Tue"
+                android:textAlignment="gravity"
+                android:gravity="center"
+                android:layout_margin="1dp"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/day_3"
+                android:background="@color/lavender"
+                android:layout_margin="1dp"
+                android:text="Wed"
+                android:textAlignment="gravity"
+                android:gravity="center"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/lavender"
+                android:layout_margin="1dp"
+                android:id="@+id/day_4"
+                android:text="Thu"
+                android:textAlignment="gravity"
+                android:gravity="center"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/lavender"
+                android:layout_margin="1dp"
+                android:id="@+id/day_5"
+                android:text="Fri"
+                android:textAlignment="gravity"
+                android:gravity="center"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/lavender"
+                android:layout_margin="1dp"
+                android:id="@+id/day_6"
+                android:text="Sat"
+                android:textAlignment="gravity"
+                android:gravity="center"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/lavender"
+                android:layout_margin="1dp"
+                android:id="@+id/day_7"
+                android:text="Sun"
+                android:textAlignment="gravity"
+                android:gravity="center"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="horizontal"
+            android:id="@+id/pickers_group"
+            app:layout_constraintTop_toBottomOf="@+id/days_group"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <NumberPicker
+                android:id="@+id/hour_picker"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/minute_picker"
+                android:layout_weight="1">
+            </NumberPicker>
+
+            <NumberPicker
+                android:id="@+id/minute_picker"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:layout_constraintLeft_toRightOf="@+id/hour_picker"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_weight="1">
+            </NumberPicker>
+
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.design.widget.CoordinatorLayout>

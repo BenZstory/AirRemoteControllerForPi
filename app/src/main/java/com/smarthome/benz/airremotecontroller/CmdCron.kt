@@ -70,6 +70,23 @@ class CmdCron() {
 
         this.cmdStrForShell = "irsend SEND_ONCE haierac " + this.airCmd!!.cmdStr
     }
+
+    fun buildJson() : JSONObject {
+        val json = JSONObject()
+        json.put("day", this.day)
+        json.put("hour", this.hour)
+        json.put("minute", this.minute)
+        if (this.cmdType == 2) {
+            json.put("toggle", this.airCmd!!.toggle)
+            json.put("mode", this.airCmd!!.workModeStr)
+            json.put("degree", this.airCmd!!.degree)
+            json.put("wind", this.airCmd!!.windSpeed)
+        } else {
+            json.put("cmd", this.cmdStrForShell)
+        }
+        return json
+    }
+
 }
 
 

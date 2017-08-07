@@ -26,7 +26,14 @@
             android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme">
+        </activity>
 
+        <activity
+            android:name=".CronEditor"
+            android:label="新建任务"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".SchedulerActivity"
+            android:theme="@style/AppTheme">
         </activity>
 
 

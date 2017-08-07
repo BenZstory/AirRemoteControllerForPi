@@ -1,6 +1,7 @@
 package com.smarthome.benz.airremotecontroller
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -47,9 +48,10 @@ class SchedulerActivity: AppCompatActivity() {
         this.mListAdapter = CronListAdapter(mCronList!!, R.layout.cron_list_item)
         recycler_view.adapter = mListAdapter
 
-        fab_add.onClick {
-
-        }
+        fab_add.setOnClickListener({v:View ->
+            val intent = Intent(this, CronEditor::class.java)
+            startActivityForResult(intent, 100)
+        })
     }
 
     fun prepareData() {
@@ -57,7 +59,7 @@ class SchedulerActivity: AppCompatActivity() {
                 Response.Listener { response: JSONArray ->
                     Log.i(TAG, "get_cron_rep: " + response.toString())
                     mCronList!!.clear()
-                    for (item : JSONObject in response) {
+                    for (item: JSONObject in response) {
                         Log.i(TAG, "cron_item: " + item.toString())
                         mCronList!!.add(CmdCron(item))
                     }
@@ -71,6 +73,7 @@ class SchedulerActivity: AppCompatActivity() {
         mQueue!!.add(request)
         Log.i(TAG, "get_cron request sent!")
     }
+
 
     operator fun JSONArray.iterator(): Iterator<JSONObject>
             = (0 until length()).asSequence().map { get(it) as JSONObject }.iterator()

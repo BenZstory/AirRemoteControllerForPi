@@ -28,128 +28,155 @@
         android:layout_gravity="center|top"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <View
-            android:id="@+id/line_above_mode"
-            android:layout_height="5dp"
-            android:layout_width="match_parent"
-            android:background="@color/White"
-            app:layout_constraintTop_toTopOf="parent">
-        </View>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/btn_work_mode"
+            android:layout_width="0dp"
             android:layout_height="80dp"
-            android:orientation="horizontal"
-            android:id="@+id/group_work_mode"
-            android:background="@color/lavender"
-            app:layout_constraintTop_toTopOf="@id/line_above_mode">
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/work_mode"
+            android:textAlignment="center"
+            android:background="@drawable/air_btn_style"
+            app:layout_constraintEnd_toStartOf="@+id/btn_toggle"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:id="@+id/btn_work_mode"
-                android:text="@string/work_mode"
-                android:textAlignment="gravity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="冷风"
+                android:textSize="80px"
                 android:gravity="center"
-                android:layout_weight="1"
-                />
-            <View
-                android:layout_height="match_parent"
-                android:layout_width="5dp"
-                android:background="@color/White">
-            </View>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:id="@+id/btn_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="工作模式"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/btn_toggle"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:background="@drawable/air_btn_style"
+            app:layout_constraintEnd_toStartOf="@+id/btn_wind_speed"
+            app:layout_constraintStart_toEndOf="@+id/btn_work_mode"
+            app:layout_constraintTop_toTopOf="@+id/btn_work_mode" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ON"
+                android:textSize="80px"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="开关"
-                android:textAlignment="gravity"
-                android:gravity="center"
-                android:layout_weight="1"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </android.support.constraint.ConstraintLayout>
 
-            <View
-                android:layout_height="match_parent"
-                android:layout_width="5dp"
-                android:background="@color/White">
-            </View>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:id="@+id/btn_wind_speed"
-                android:text="@string/wind_speed"
-                android:textAlignment="gravity"
-                android:gravity="center"
-                android:layout_weight="1"
-                />
-
-        </LinearLayout>
-
-        <View
-            android:id="@+id/line_below_mode"
-            android:layout_height="5dp"
-            android:layout_width="match_parent"
-            android:background="@color/White"
-            app:layout_constraintTop_toBottomOf="@id/group_work_mode">
-        </View>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/btn_wind_speed"
+            android:layout_width="0dp"
             android:layout_height="80dp"
-            android:orientation="horizontal"
-            android:id="@+id/group_degree"
-            android:background="@color/lavender"
-            app:layout_constraintTop_toBottomOf="@+id/line_below_mode">
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/air_btn_style"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_toggle"
+            app:layout_constraintTop_toTopOf="@+id/btn_toggle"
+            android:layout_marginTop="0dp" >
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:id="@+id/btn_degree_down"
-                android:text="@string/degree_down"
-                android:textAlignment="gravity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="自动"
+                android:textSize="80px"
                 android:gravity="center"
-                android:layout_weight="1"
-                />
-            <View
-                android:layout_height="match_parent"
-                android:layout_width="5dp"
-                android:background="@color/White">
-            </View>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:id="@+id/tv_degree"
-                android:text="@string/hint_degree"
-                android:textAlignment="gravity"
-                android:gravity="center"
-                android:layout_weight="1"
-                />
-
-            <View
-                android:layout_height="match_parent"
-                android:layout_width="5dp"
-                android:background="@color/White">
-            </View>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:id="@+id/btn_degree_up"
-                android:text="@string/degree_up"
-                android:textAlignment="gravity"
-                android:gravity="center"
-                android:layout_weight="1"
-                />
-        </LinearLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="风速"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </android.support.constraint.ConstraintLayout>
 
-        <View
-            android:layout_height="5dp"
-            android:layout_width="match_parent"
-            android:background="@color/White"
-            app:layout_constraintTop_toBottomOf="@id/group_degree">
-        </View>
+        <TextView
+            android:id="@+id/btn_degree_down"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/degree_down"
+            android:textSize="120px"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:background="@drawable/air_btn_style"
+            app:layout_constraintEnd_toEndOf="@+id/btn_work_mode"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="@+id/btn_work_mode"
+            app:layout_constraintTop_toBottomOf="@+id/btn_work_mode" />
+
+        <TextView
+            android:id="@+id/tv_degree"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
+            android:text="@string/hint_degree"
+            android:textSize="80px"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:background="@drawable/air_btn_style"
+            app:layout_constraintEnd_toEndOf="@+id/btn_toggle"
+            app:layout_constraintStart_toStartOf="@+id/btn_toggle"
+            app:layout_constraintTop_toTopOf="@+id/btn_degree_down" />
+
+
+        <TextView
+            android:id="@+id/btn_degree_up"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:text="@string/degree_up"
+            android:textSize="120px"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:background="@drawable/air_btn_style"
+            app:layout_constraintEnd_toEndOf="@+id/btn_wind_speed"
+            app:layout_constraintStart_toStartOf="@+id/btn_wind_speed"
+            app:layout_constraintTop_toTopOf="@+id/tv_degree" />
 
     </android.support.constraint.ConstraintLayout>
 

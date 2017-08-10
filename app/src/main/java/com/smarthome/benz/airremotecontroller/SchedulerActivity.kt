@@ -63,6 +63,15 @@ class SchedulerActivity: AppCompatActivity() {
                         Log.i(TAG, "cron_item: " + item.toString())
                         mCronList!!.add(CmdCron(item))
                     }
+                    var c1 : Comparator<CmdCron> = Comparator{ o1, o2 ->
+                        if (o1.hour == o2.hour) {
+                            o1.minute.compareTo(o2.minute)
+                        } else {
+                            o1.hour - o2.hour
+                        }
+                    }
+                    mCronList.sortWith(c1);
+
                     mListAdapter!!.notifyDataSetChanged()
                 },
                 Response.ErrorListener { error ->
@@ -98,33 +107,27 @@ class SchedulerActivity: AppCompatActivity() {
         : RecyclerView.Adapter<CronListAdapter.ViewHolder>() {
 
         class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-            val mToggleView: TextView = view.find(R.id.tv_item_toggle)
             val mModeView: TextView = view.find(R.id.tv_item_mode)
-            val mWindView: TextView = view.find(R.id.tv_item_wind)
             val mDegreeView: TextView = view.find(R.id.tv_item_degree)
             val mDayTypeView: TextView = view.find(R.id.tv_item_day_type)
             val mTimeView: TextView = view.find(R.id.tv_item_time)
 
             fun bindItem(item: CmdCron) {
                 if (item.airCmd!!.toggle) {
-                    mToggleView.text = "ON"
-//                    mModeView.text = item.airCmd!!.workModeStr
                     when (item.airCmd!!.workMode) {
                         0 -> mModeView.backgroundColor = Color.rgb(0,255,255)
                         1 -> mModeView.backgroundColor = Color.rgb(255,165,0)
                     }
-                    mWindView.text = item.airCmd!!.windSpeed.toString()
+                    mModeView.text = item.airCmd!!.windSpeed.toString()
                     mDegreeView.text = item.airCmd!!.degree.toString()
                 } else {
-                    mToggleView.text = "OFF"
-                    mModeView.text = "--"
-                    mWindView.text = "--"
+                    mModeView.text = "OFF"
                     mDegreeView.text = "--"
                 }
 
                 when (item.day) {
-                    1 -> mDayTypeView.text = "work"
-                    2 -> mDayTypeView.text = "rest"
+                    1 -> mDayTypeView.text = "workday"
+                    2 -> mDayTypeView.text = "weekend"
                 }
                 val time = item.hour.toString() + " : " + item.minute.toString()
                 mTimeView.text = time

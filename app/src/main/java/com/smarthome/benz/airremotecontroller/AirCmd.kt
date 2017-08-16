@@ -6,12 +6,12 @@ import org.json.JSONObject
  * Created by benz on 17.6.11.
  */
 class AirCmd(val id: Int,
-             val toggle: Boolean) {
-    var workModeStr: String? = "COOL"
+             var toggle: Boolean) {
+    var workModeStr: String = "COOL"
     var cmdStr: String? = null
-    var degree: Int? = 26
-    var workMode: Int? = 0
-    var windSpeed: Int? = 0
+    var degree: Int = 26
+    var workMode: Int = 0
+    var windSpeed: Int = 0
     var status: String? = null
     var result: String? = null
 
@@ -44,6 +44,5 @@ class AirCmd(val id: Int,
         json.put("mode", workModeStr)
         json.put("degree", degree)
         json.put("wind", windSpeed)
-        return json
-    }
+        return json    }
 }

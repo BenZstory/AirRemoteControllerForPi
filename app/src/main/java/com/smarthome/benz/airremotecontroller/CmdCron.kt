@@ -73,6 +73,7 @@ class CmdCron() {
 
     fun buildJson() : JSONObject {
         val json = JSONObject()
+        json.put("id", this.id)
         json.put("day", this.day)
         json.put("hour", this.hour)
         json.put("minute", this.minute)

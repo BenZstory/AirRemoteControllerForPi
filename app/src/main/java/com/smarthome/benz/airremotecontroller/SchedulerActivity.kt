@@ -1,6 +1,5 @@
 package com.smarthome.benz.airremotecontroller
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -14,11 +13,11 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_scheduler.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.find
-import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.toast
 import org.json.JSONArray
 import org.json.JSONObject
@@ -31,6 +30,7 @@ class SchedulerActivity: AppCompatActivity() {
     val TAG = "SchedulerAty"
     val url_root = "http://www.benzweb.tech:28234"
     val url_get_cron = url_root + "/get_cron"
+    val url_clear_all = url_root + "/clear_cron"
     var mQueue: RequestQueue? = null
 
     val mCronList: ArrayList<CmdCron>? = ArrayList()
@@ -70,7 +70,7 @@ class SchedulerActivity: AppCompatActivity() {
                             o1.hour - o2.hour
                         }
                     }
-                    mCronList.sortWith(c1);
+                    mCronList.sortWith(c1)
 
                     mListAdapter!!.notifyDataSetChanged()
                 },
@@ -99,6 +99,18 @@ class SchedulerActivity: AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         Log.i(TAG, "SchedulerAction pressed: " + item!!.toString())
+        when (item!!.itemId) {
+            R.id.actions_item_clear_all -> {
+                val request = JsonObjectRequest(Request.Method.GET, url_clear_all, null,
+                        Response.Listener<JSONObject> { response ->
+                            toast(response.toString())
+                        },
+                        Response.ErrorListener { error ->
+                            toast(error.toString())
+                        })
+                mQueue!!.add(request)
+            }
+        }
         return super.onOptionsItemSelected(item)
     }
 

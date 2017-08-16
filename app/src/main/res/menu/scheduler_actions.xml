@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:Context=".SchedulerActivity">
 
-    <item android:id="@+id/actions_item_edit_all"
-        android:title="Edit" />
+    <item android:id="@+id/actions_item_clear_all"
+        android:title="Clear All" />
 
     <item android:id="@+id/action_item_settings"
         android:title="@string/action_settings"

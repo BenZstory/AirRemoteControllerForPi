@@ -157,7 +157,6 @@ class SchedulerActivity: AppCompatActivity() {
                 intent.putExtra("cron_json", item.buildJson().toString())
                 Log.i("SchedulerItem", "starting CronEditor...")
                 parent.context.startActivity(intent)
-
             }
         }
 
@@ -170,12 +169,20 @@ class SchedulerActivity: AppCompatActivity() {
             return mItems.size
         }
 
-        // https://stackoverflow.com/questions/29424944/recyclerview-itemclicklistener-in-kotlin?rq=1
         fun <T:RecyclerView.ViewHolder> T.listen( event: (position: Int, type: Int) -> Unit) : T {
-            itemView.setOnClickListener {
+            itemView.setOnLongClickListener {
                 event.invoke(adapterPosition, itemViewType)
+                true
             }
             return this
         }
+
+        // https://stackoverflow.com/questions/29424944/recyclerview-itemclicklistener-in-kotlin?rq=1
+//        fun <T:RecyclerView.ViewHolder> T.listen( event: (position: Int, type: Int) -> Unit) : T {
+//            itemView.setOnClickListener {
+//                event.invoke(adapterPosition, itemViewType)
+//            }
+//            return this
+//        }
     }
 }

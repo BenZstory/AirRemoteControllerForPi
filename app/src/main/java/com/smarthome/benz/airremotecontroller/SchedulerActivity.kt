@@ -1,5 +1,6 @@
 package com.smarthome.benz.airremotecontroller
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -50,6 +51,7 @@ class SchedulerActivity: AppCompatActivity() {
 
         fab_add.setOnClickListener({v:View ->
             val intent = Intent(this, CronEditor::class.java)
+            intent.putExtra("is_new", true)
             startActivityForResult(intent, 100)
         })
     }
@@ -148,7 +150,15 @@ class SchedulerActivity: AppCompatActivity() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val v = LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
-            return ViewHolder(v)
+            return ViewHolder(v).listen{ pos, type ->
+                val item = mItems[pos]
+                val intent = Intent(parent.context, CronEditor::class.java)
+                intent.putExtra("is_new", false)
+                intent.putExtra("cron_json", item.buildJson().toString())
+                Log.i("SchedulerItem", "starting CronEditor...")
+                parent.context.startActivity(intent)
+
+            }
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -159,6 +169,13 @@ class SchedulerActivity: AppCompatActivity() {
         override fun getItemCount(): Int {
             return mItems.size
         }
-    }
 
+        // https://stackoverflow.com/questions/29424944/recyclerview-itemclicklistener-in-kotlin?rq=1
+        fun <T:RecyclerView.ViewHolder> T.listen( event: (position: Int, type: Int) -> Unit) : T {
+            itemView.setOnClickListener {
+                event.invoke(adapterPosition, itemViewType)
+            }
+            return this
+        }
+    }
 }

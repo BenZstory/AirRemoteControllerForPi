@@ -1,6 +1,7 @@
 package com.smarthome.benz.airremotecontroller
 
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
@@ -23,8 +24,10 @@ class CronEditor: AppCompatActivity(), View.OnClickListener {
     val TAG = "editorAty"
     val url = "http://www.benzweb.tech:28234"
     val url_set_cron = url + "/set_cron"
+    val url_update_cron = url + "/update_cron"
 
     var mQueue: RequestQueue? = null
+    var isAddingNew : Boolean = true
 
     var newCron = CmdCron(0, 1, 12, 0, AirCmd(0, true))
 
@@ -33,6 +36,16 @@ class CronEditor: AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_cron_editor)
         setSupportActionBar(cron_editor_toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        var isNew = intent.getBooleanExtra("is_new", true)
+        if (!isNew) {
+            isAddingNew = false
+            val jsonStr = intent.getStringExtra("cron_json")
+            Log.i(TAG, "jsonStr  " + jsonStr)
+            val json = JSONObject(jsonStr)
+            newCron = CmdCron(json)
+            Log.i(TAG, "built cron  " + newCron.toString())
+        }
 
         init()
     }
@@ -74,18 +87,46 @@ class CronEditor: AppCompatActivity(), View.OnClickListener {
     fun send_cron() {
         newCron.hour = hour_picker.value
         newCron.minute = minute_picker.value
+        if (isAddingNew) {
+             val request = JsonObjectRequest(Request.Method.POST, url_set_cron, newCron.buildJson(),
+                    Response.Listener<JSONObject> { response ->
+                        toast(response.toString())
+                        this.finish()
+                    },
+                    Response.ErrorListener { err ->
+                        err.printStackTrace()
+                        toast("request#${newCron.id} failed with errMsg: " + err.message.toString())
+                    })
+            mQueue!!.add(request)
+        } else {
+            val request = JsonObjectRequest(Request.Method.POST, url_update_cron, newCron.buildJson(),
+                    Response.Listener<JSONObject> { response ->
+                        toast(response.toString())
+                        this.finish()
+                    },
+                    Response.ErrorListener { err ->
+                        err.printStackTrace()
+                        toast("request#${newCron.id} failed with errMsg: " + err.message.toString())
+                    })
+            mQueue!!.add(request)
+        }
+    }
 
-        val request = JsonObjectRequest(Request.Method.POST, url_set_cron, newCron.buildJson(),
-                Response.Listener<JSONObject> { response ->
-                    toast(response.toString())
-
-                },
-                Response.ErrorListener { err ->
-                    err.printStackTrace()
-                    toast("request#${newCron.id} failed with errMsg: " + err.message.toString())
-                })
-
-        mQueue!!.add(request)
+    override fun onBackPressed() {
+        if (!isAddingNew) {
+            val dialogBuilder = AlertDialog.Builder(this)
+            dialogBuilder.setMessage("You will lose your change.")
+                    .setPositiveButton("Confirm", { dialog, which ->
+                        dialog.dismiss()
+                        this.finish()
+            })
+                    .setNegativeButton("Cancel", { dialog, which ->
+                        dialog.dismiss()
+            })
+            dialogBuilder.create().show()
+        } else {
+            super.onBackPressed()
+        }
     }
 
     override fun onClick(v: View?) {

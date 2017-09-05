@@ -30,7 +30,7 @@ class CronEditor: AppCompatActivity(), View.OnClickListener {
     var mQueue: RequestQueue? = null
     var isAddingNew : Boolean = true
 
-    var newCron = CmdCron(0, 0, 12, 0, AirCmd(0, true))
+    var newCron = CmdCron(0, 255, 12, 0, AirCmd(0, true))
     var weekdays_mask: Int = 31 shl 1
     var weekends_mask: Int = 3 shl 6
 
@@ -112,6 +112,10 @@ class CronEditor: AppCompatActivity(), View.OnClickListener {
     fun send_cron() {
         newCron.hour = hour_picker.value
         newCron.minute = minute_picker.value
+        if (this.newCron.day <= 1) {
+            toast("day_flag not set, skip")
+            return
+        }
         if (isAddingNew) {
              val request = JsonObjectRequest(Request.Method.POST, url_set_cron, newCron.buildJson(),
                     Response.Listener<JSONObject> { response ->
@@ -286,10 +290,6 @@ class CronEditor: AppCompatActivity(), View.OnClickListener {
     }
 
     fun toggleBriefWeekOption(tag: Int) {
-        if (this.newCron.day == 0) {
-            Log.i(TAG, "toggleWeek, day_flag day is 0")
-            this.newCron.day = weekdays_mask or weekends_mask
-        }
         if (tag == 1) {
             val weekday_flag = this.newCron.day and weekdays_mask
             if (weekday_flag > 0) {
@@ -312,10 +312,6 @@ class CronEditor: AppCompatActivity(), View.OnClickListener {
 
     fun toggleWeek(week:Int, v:TextView) {
         Log.i(TAG, "toggleWeek, week: " + week)
-        if (this.newCron.day == 0) {
-            Log.i(TAG, "toggleWeek, day_flag day is 0")
-            this.newCron.day = weekdays_mask or weekends_mask
-        }
         Log.i(TAG, "toggleWeek, day_flag before: " + this.newCron.day)
         var week_flag = 1 shl week
         this.newCron.day = this.newCron.day xor week_flag;

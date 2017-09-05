@@ -138,13 +138,21 @@ class SchedulerActivity: AppCompatActivity() {
                     mModeView.text = "OFF"
                     mDegreeView.text = "--"
                 }
-
-                when (item.day) {
-                    1 -> mDayTypeView.text = "workday"
-                    2 -> mDayTypeView.text = "weekend"
-                }
+                mDayTypeView.text = buildDayFlagTxt(item.day)
                 val time = item.hour.toString() + " : " + item.minute.toString()
                 mTimeView.text = time
+            }
+
+            fun buildDayFlagTxt(day: Int) : String {
+                var ret = ""
+                for (i in 1..7) {
+                    if ((day shr i) and 1 > 0) {
+                        ret += "☑"
+                    } else {
+                        ret += "☐"
+                    }
+                }
+                return ret
             }
         }
 
